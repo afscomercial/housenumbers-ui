@@ -1,16 +1,5 @@
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000';
 
-// Dynamic fetch implementation to handle server vs client
-const getFetchImpl = () => {
-  if (typeof window === 'undefined') {
-    // Server-side: use global fetch (assuming it's available in Node.js 18+)
-    return fetch;
-  } else {
-    // Client-side: use native fetch
-    return fetch;
-  }
-};
-
 export interface LoginCredentials {
   username: string;
   password: string;
@@ -45,7 +34,6 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    const fetchImpl = getFetchImpl();
     
     const requestOptions: RequestInit = {
       method: 'GET', // default method
@@ -56,7 +44,7 @@ class ApiClient {
       },
     };
     
-    const response = await fetchImpl(url, requestOptions);
+    const response = await fetch(url, requestOptions);
 
     if (!response.ok) {
       let errorMessage = `HTTP error! status: ${response.status}`;
@@ -138,8 +126,7 @@ class ApiClient {
   }
 
   async deleteSnippet(id: string, token: string): Promise<void> {
-    const fetchImpl = getFetchImpl();
-    const response = await fetchImpl(`${this.baseUrl}/snippets/${id}`, {
+    const response = await fetch(`${this.baseUrl}/snippets/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,

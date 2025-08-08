@@ -29,9 +29,11 @@ A modern, responsive web application for AI-powered text summarization built wit
 
 ## Getting Started
 
-### 1. Install Dependencies
+### 1. Clone Repository and Install Dependencies
 
 ```bash
+git clone https://github.com/afscomercial/housenumbers-ui.git
+cd housenumbers-ui
 npm install
 ```
 
@@ -91,6 +93,30 @@ The app connects to the housenumbers-api with the following endpoints:
 - `GET /snippets` - Fetch all summaries
 - `POST /snippets` - Create new summary
 - `DELETE /snippets/:id` - Delete summary
+
+### API Usage Examples
+
+For direct API testing, you can use cURL commands:
+
+```bash
+# Login to get JWT token
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "admin",
+    "password": "secure_password_123"
+  }'
+
+# Create a snippet with AI summary (replace YOUR_JWT_TOKEN)
+curl -X POST http://localhost:3000/snippets \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "text": "Your text to summarize here..."
+  }'
+```
+
+For complete API documentation, see the [housenumbers-api repository](https://github.com/afscomercial/housenumbers-api).
 
 ## Scripts
 
